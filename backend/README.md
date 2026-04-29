@@ -22,6 +22,12 @@ set DISABLE_ADMIN_AUTH=true
 python app.py
 ```
 
+```Window
+$env:DISABLE_ADMIN_AUTH = "true"
+$env:APP_ENV = "production"
+python app.py
+```
+
 When `DISABLE_ADMIN_AUTH=true` (or `1`, `yes`, `on`), admin endpoints do not require `X-API-Key`.
 If `DISABLE_ADMIN_AUTH` is not set, then `APP_ENV=development` (or `dev`) disables admin auth.
 In other environments, admin endpoints require `X-API-Key: <API_KEY>`.
