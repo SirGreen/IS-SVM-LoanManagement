@@ -1,0 +1,301 @@
+{
+  "info": {
+    "name": "Credit SVM API",
+    "description": "Postman collection for the custom Flask SVM credit detection API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "apiKey",
+      "value": "change-this-key"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "health"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Health reports ok', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.ok).to.eql(true);",
+              "  pm.expect(body.service).to.eql('credit-svm-api');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Predict",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status_checking_account\": \"A11\",\n  \"duration_months\": 6,\n  \"credit_history\": \"A34\",\n  \"purpose\": \"A43\",\n  \"credit_amount\": 1169,\n  \"savings_account\": \"A65\",\n  \"employment_since\": \"A75\",\n  \"installment_rate_pct\": 4,\n  \"personal_status_sex\": \"A93\",\n  \"other_debtors\": \"A101\",\n  \"residence_since\": 4,\n  \"property\": \"A121\",\n  \"age\": 67,\n  \"other_installment_plans\": \"A143\",\n  \"housing\": \"A152\",\n  \"existing_credits\": 2,\n  \"job\": \"A173\",\n  \"liable_dependents\": 1,\n  \"telephone\": \"A192\",\n  \"foreign_worker\": \"A201\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/predict",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "predict"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Prediction response has expected fields', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.ok).to.eql(true);",
+              "  pm.expect(body.prediction).to.be.oneOf([0, 1]);",
+              "  pm.expect(body).to.have.property('decision_score');",
+              "  pm.expect(body).to.have.property('uncertain');",
+              "  pm.expect(body.explanation).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Officer - Uncertain Cases",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/officer/uncertain?page=1&limit=20",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "officer",
+            "uncertain"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Uncertain cases payload shape is valid', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.items).to.be.an('array');",
+              "  pm.expect(body.total).to.be.a('number');",
+              "  pm.expect(body.page).to.eql(1);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Stats",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-Key",
+            "value": "{{apiKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/admin/stats",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "admin",
+            "stats"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Stats payload contains model metrics', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.ok).to.eql(true);",
+              "  pm.expect(body.stats).to.have.property('accuracy');",
+              "  pm.expect(body.stats).to.have.property('f1_score');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Get Uncertainty Margin",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-Key",
+            "value": "{{apiKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/admin/uncertainty-margin",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "admin",
+            "uncertainty-margin"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Admin - Set Uncertainty Margin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-Key",
+            "value": "{{apiKey}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"uncertainty_margin\": 0.5\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/admin/uncertainty-margin",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "admin",
+            "uncertainty-margin"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Admin - Retrain",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-API-Key",
+            "value": "{{apiKey}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/admin/retrain",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "admin",
+            "retrain"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Retrain response returns stats', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.ok).to.eql(true);",
+              "  pm.expect(body.stats).to.have.property('accuracy');",
+              "  pm.expect(body.stats).to.have.property('f1_score');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
