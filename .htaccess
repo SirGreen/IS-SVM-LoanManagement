@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Si on demande la racine du projet, on va dans public
+RewriteRule ^$ public/index.php [L,QSA]
+
+# Si la requête ne contient pas déjà "public/", on l'ajoute
+RewriteCond %{REQUEST_URI} !^/IS-SVM-LoanManagement/public/
+RewriteRule ^(.*)$ public/$1 [L,QSA]
