@@ -11,13 +11,13 @@
             <div class="col-md-4 text-center mb-3 mb-md-0">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item mx-2">
-                        <a href="#" class="text-secondary text-decoration-none small">Documentation</a>
+                        <a href="https://github.com/SirGreen/IS-SVM-LoanManagement" class="text-secondary text-decoration-none small" target='_blank'>Documentation</a>
                     </li>
                     <li class="list-inline-item mx-2">
                         <a href="#" class="text-secondary text-decoration-none small">API Status</a>
                     </li>
                     <li class="list-inline-item mx-2">
-                        <a href="#" class="text-secondary text-decoration-none small">Support</a>
+                        <a href="https://github.com/SirGreen/IS-SVM-LoanManagement" class="text-secondary text-decoration-none small" target='_blank'>Support</a>
                     </li>
                 </ul>
             </div>

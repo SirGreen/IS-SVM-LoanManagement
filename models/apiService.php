@@ -2,23 +2,30 @@
 class APIService {
     private $baseUrl = "http://localhost:8000"; // URL API FastAPI
 
-    public function call($endpoint, $method = 'GET', $data = null) {
+    public function call($endpoint, $method = 'GET', $data = null, $api_key = null) {
         $url = $this->baseUrl . '/' . ltrim($endpoint, '/');
         $ch = curl_init($url);
 
-        $options = [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => $method,
-            CURLOPT_HTTPHEADER => ['Content-Type: application/json']
-        ];
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
-        if ($data && ($method === 'POST' || $method === 'PUT')) {
-            $options[CURLOPT_POSTFIELDS] = json_encode($data);
+        $headers = [
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data)
+        ];
+        if ($api_key !== null) {
+            $headers[] = "X-API-Key: " . $api_key;
         }
 
-        curl_setopt_array($ch, $options);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if (curl_errno($ch)) {
+            echo 'Error cURL : ' . curl_error($ch);
+        }
         curl_close($ch);
 
         return [

@@ -33,9 +33,27 @@ class EmployerController {
 
             case 'download':
                 break;
+
+            case 'run_model':
+                $this->run_model();
+                break;
             
             default:
                 break;
         }
+    }
+
+    private function run_model(){
+        $endpoint = "api/v1/predict";
+        $data = $_POST;
+        $jsonData = json_encode($data);
+        $response = $this->api->call($endpoint,'GET',$jsonData);
+        return $response;
+    }
+
+    private function get_uncertain(){
+        $endpoint = "api/v1/officer/uncertain";
+        $response = $this->api->call($endpoint,'GET',null);
+        return $response;
     }
 }

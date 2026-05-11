@@ -27,7 +27,6 @@ class AuthController {
     }
 
     public function logout() {
-        // Clear all session variables
         $_SESSION = array();
 
         // Destroy the session cookie
@@ -39,10 +38,8 @@ class AuthController {
             );
         }
 
-        // Destroy the session
         session_destroy();
 
-        // Redirect to login page
         header("Location: index.php?page=login");
         exit();
     }
