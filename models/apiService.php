@@ -12,7 +12,6 @@ class APIService {
 
         $headers = [
             'Content-Type: application/json',
-            'Content-Length: ' . strlen($data)
         ];
         if ($api_key !== null) {
             $headers[] = "X-API-Key: " . $api_key;

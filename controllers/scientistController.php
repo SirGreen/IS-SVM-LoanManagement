@@ -10,7 +10,6 @@ class WorkshopController {
         include __DIR__ . '/../views/header.php';
         switch ($action) {
             case 'dashboard':
-                $stats = $this->get_stats();
                 include '../views/data_scientist/model_workshop.php';
                 break;
 
