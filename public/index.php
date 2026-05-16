@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+include '../views/head.php';
+
 // Auth
 if (!isset($_SESSION['user_id']) && $_GET['page'] !== 'login') {
     header('Location: index.php?page=login');
@@ -31,6 +33,12 @@ switch ($page) {
         require_once '../controllers/scientistController.php';
         $controller = new WorkshopController();
         $action = $_GET['action'] ?? 'dashboard';
+        $controller->handle_request($action);
+        break;
+    case 'run_model':
+        require_once '../controllers/runModel.php';
+        $controller = new RunModel();
+        $action = $_GET['action'] ?? '';
         $controller->handle_request($action);
         break;
     case 'login':

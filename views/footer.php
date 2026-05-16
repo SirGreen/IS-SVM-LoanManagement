@@ -1,3 +1,4 @@
+</body>
 <footer class="bg-black text-white py-5 mt-5">
     <div class="container">
         <div class="row align-items-center">

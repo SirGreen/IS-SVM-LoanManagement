@@ -13,11 +13,11 @@ class EmployerController {
         include __DIR__ . '/../views/header.php';
         switch ($action) {
             case 'dashboard':
-                $pending_list = $this->user_model->get_loan_pending();
-                $stats = [
-                    "pending_reviews" => 12,
-                    "completed_this_month" => 45
-                ];
+                $limit = 3;
+                $total_rewiew = 3;
+                $total_pages = ceil($total_rewiew / $limit);
+                $current_page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+                $pending_list = ($this->get_uncertain($current_page,$limit))['data'];
                 include '../views/employer/dashboard.php';
                 break;
 
@@ -25,10 +25,19 @@ class EmployerController {
                 include '../views/employer/loan_form.php';
                 break;
 
+            case 'show_results':
+                $fields = $_SESSION['form_data'] ?? [];
+                $result = $_SESSION['api_results']['data'] ?? null;
+                unset($_SESSION['form_data']);
+                unset($_SESSION['api_results']);
+                include '../views/employer/loan_form.php';
+                break;
+
             case 'apply':
+                $this->run_model();
                 break;
                 
-            case 'details':
+            case 'review':
                 break;
 
             case 'download':
@@ -51,9 +60,9 @@ class EmployerController {
         return $response;
     }
 
-    private function get_uncertain(){
+    private function get_uncertain($page,$limit){
         $endpoint = "api/v1/officer/uncertain";
-        $response = $this->api->call($endpoint,'GET',null);
+        $response = $this->api->call($endpoint,'GET',['page'=>$page,'limit'=>$limit]);
         return $response;
     }
 }

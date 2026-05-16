@@ -17,7 +17,7 @@ if (isset($_SESSION['flash'])): ?>
     ?>
 <?php endif; ?>
 
-<?php include __DIR__ . '/head.php'; ?>
+<!-- ====== AUTH ====== -->
 <main class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-4">
@@ -43,7 +43,7 @@ if (isset($_SESSION['flash'])): ?>
             <div class="text-secondary">
                 <p class='fw-bold'>Admin:</p> scientist@example.com<br><br>
                 <p class='fw-bold'>Employer:</p> employer@example.com<br><br>
-                <p class='fw-bold'>Job Seeker:</p> user@example.com
+                <p class='fw-bold'>Client:</p> user@example.com
             </div>
         </div>
     </div>

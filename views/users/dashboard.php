@@ -75,9 +75,9 @@ function get_status_class($status) {
                         <td>
                             <?php if ($app['status'] !== "Pending"): ?>
                                 <?php if ($app['type'] === "Simulation"): ?>
-                                    <a href="index.php?page=user&action=details&id<?= $app['application_id']?>" class="text-primary fw-bold text-decoration-none">Details</a>
+                                    <a href="index.php?page=user&action=details&id=<?= urlencode($app['application_id'])?>" class="text-primary fw-bold text-decoration-none">Details</a>
                                 <?php else: ?>
-                                    <a href="index.php?page=user&action=download&id<?= $app['application_id']?>" class="text-primary fw-bold text-decoration-none">Download</a>
+                                    <a href="#" class="text-primary fw-bold text-decoration-none">Download</a>
                                 <?php endif; ?>
                             <?php else: ?>
                                 -

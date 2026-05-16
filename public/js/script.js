@@ -78,3 +78,33 @@ document.addEventListener('DOMContentLoaded', function() {
         bsToast.show();
     };
 });
+
+/*********************************/ 
+/************* MODAL *************/ 
+/*********************************/ 
+
+
+// // Handle Edit Buttons
+// document.querySelectorAll('.review-btn').forEach(function(btn) {
+//     btn.addEventListener('click', function() {
+//         var id = this.getAttribute('data-review-id');
+//         var name = this.getAttribute('data-edit-name');
+//         var table = this.getAttribute('data-edit-table');
+        
+//         document.getElementById('modal-title').innerText = 'Edit Entry';
+//         document.getElementById('add-entry-form').action = "<?= $baseUrl ?>/admin/updateRef";
+//         document.getElementById('entry-id').value = id;
+//         document.getElementById('entry-table').value = table;
+//         document.getElementById('entry-name').value = name;
+        
+//         // Show modal (assuming script.js handles the data-modal click, but we manually trigger it if needed)
+//         document.getElementById('add-modal').classList.add('active');
+//     });
+// });
+
+//   // Handle modal close
+//   document.querySelectorAll('.modal-close').forEach(function(btn) {
+//       btn.addEventListener('click', function() {
+//           document.getElementById('add-modal').classList.remove('active');
+//       });
+//   });

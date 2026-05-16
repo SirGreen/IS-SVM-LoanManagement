@@ -1,0 +1,30 @@
+.table thead th {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+}
+.card {
+    transition: transform 0.2s ease;
+}
+.card:hover {
+    transform: translateY(-2px);
+}
+
+body { background-color: #f8f9fa; }
+.sidebar { min-height: 100vh; background: #fff; border-right: 1px solid #dee2e6; width: 250px; position: fixed; }
+.main-content { margin-left: 250px; padding: 2rem; }
+.nav-link { color: #333; margin: 5px 0; border-radius: 8px; }
+.nav-link.active { background-color: #e9ecef; font-weight: bold; }
+/* Loan form */
+.form-control[readonly] {
+    background-color: #ebebeb;
+    border: 1px solid #ccc;
+    color: #000;
+}
+.form-label {
+    margin-bottom: 0.2rem;
+}
+.border-dashed {
+    border-color: #0d6efd !important;
+}

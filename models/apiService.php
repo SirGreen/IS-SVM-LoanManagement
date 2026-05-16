@@ -4,15 +4,23 @@ class APIService {
 
     public function call($endpoint, $method = 'GET', $data = null, $api_key = null) {
         $url = $this->baseUrl . '/' . ltrim($endpoint, '/');
+    
+        // GET
+        if ($method === 'GET' && !empty($data)) {
+            $url .= '?' . http_build_query($data);
+        }
+
         $ch = curl_init($url);
-
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
-        $headers = [
-            'Content-Type: application/json',
-        ];
+        // POST
+        if ($method !== 'GET' && $data !== null) {
+            $payload = is_array($data) ? json_encode($data) : $data;
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        }
+
+        $headers = ['Content-Type: application/json'];
         if ($api_key !== null) {
             $headers[] = "X-API-Key: " . $api_key;
         }
