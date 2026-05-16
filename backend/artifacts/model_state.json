@@ -1,27 +1,27 @@
 {
-  "dataset_zip_path": "statlog+german+credit+data.zip",
+  "dataset_zip_path": "data/statlog+german+credit+data.zip",
   "test_ratio": 0.2,
   "seed": 42,
-  "uncertainty_margin": 0.5,
+  "uncertainty_margin": 0.35,
   "decision_threshold": 1.1096830866515452,
   "preprocessor": {
     "numeric_means": {
+      "residence_since": 2.865,
       "liable_dependents": 1.1575,
       "duration_months": 21.05375,
-      "residence_since": 2.865,
       "existing_credits": 1.41125,
+      "credit_amount": 3298.26125,
       "age": 35.61,
-      "installment_rate_pct": 2.98125,
-      "credit_amount": 3298.26125
+      "installment_rate_pct": 2.98125
     },
     "numeric_stds": {
+      "residence_since": 1.1075987540621377,
       "liable_dependents": 0.36427153333742673,
       "duration_months": 12.161038645506395,
-      "residence_since": 1.1075987540621377,
       "existing_credits": 0.5849131880031428,
+      "credit_amount": 2844.7074551697647,
       "age": 11.42313004390653,
-      "installment_rate_pct": 1.1094586236088302,
-      "credit_amount": 2844.7074551697647
+      "installment_rate_pct": 1.1094586236088302
     },
     "nominal_categories": {
       "purpose": [
@@ -179,7 +179,11 @@
     "precision": 0.7784090909090909,
     "recall": 0.9383561643835616,
     "train_size": 800,
-    "test_size": 200
+    "test_size": 200,
+    "tp": 137,
+    "tn": 15,
+    "fp": 39,
+    "fn": 9
   },
-  "saved_at": 1777479520
+  "saved_at": 1778918090
 }

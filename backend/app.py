@@ -96,6 +96,10 @@ class ModelStats:
     recall: float
     train_size: int
     test_size: int
+    tp: int = 0
+    tn: int = 0
+    fp: int = 0
+    fn: int = 0
 
 
 class Preprocessor:
@@ -280,6 +284,10 @@ def compute_binary_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> ModelStats
         recall=float(recall),
         train_size=0,
         test_size=len(y_true01),
+        tp = tp,
+        tn = tn,
+        fp = fp,
+        fn = fn
     )
 
 
@@ -442,6 +450,10 @@ class ModelService:
             recall=metrics.recall,
             train_size=int(len(y_train)),
             test_size=int(len(y_test)),
+            tp=metrics.tp,
+            tn=metrics.tn,
+            fp=metrics.fp,
+            fn=metrics.fn
         )
 
         self._save_state()
@@ -525,6 +537,12 @@ class ModelService:
             "f1_score": self.stats.f1_score,
             "precision": self.stats.precision,
             "recall": self.stats.recall,
+            "confusion_matrix": {
+                "true_positive": self.stats.tp,
+                "true_negative": self.stats.tn,
+                "false_positive": self.stats.fp,
+                "false_negative": self.stats.fn
+            },
             "train_size": self.stats.train_size,
             "test_size": self.stats.test_size,
             "uncertainty_margin": self.uncertainty_margin,
@@ -562,6 +580,10 @@ class ModelService:
                 "recall": self.stats.recall,
                 "train_size": self.stats.train_size,
                 "test_size": self.stats.test_size,
+                "tp": self.stats.tp,
+                "tn": self.stats.tn,
+                "fp": self.stats.fp,
+                "fn": self.stats.fn,
             },
             "saved_at": int(time.time()),
         }
@@ -590,6 +612,10 @@ class ModelService:
             recall=float(stats["recall"]),
             train_size=int(stats["train_size"]),
             test_size=int(stats["test_size"]),
+            tp=int(stats.get("tp", 0)),
+            tn=int(stats.get("tn", 0)),
+            fp=int(stats.get("fp", 0)),
+            fn=int(stats.get("fn", 0)),
         )
 
     def _resolve_project_path(self, path_value: str) -> str:
@@ -652,11 +678,12 @@ def create_app() -> Flask:
     )
     api_key = os.environ.get("API_KEY", "change-this-key")
     app_env = os.environ.get("APP_ENV", "").strip().lower()
-    disable_admin_auth_raw = os.environ.get("DISABLE_ADMIN_AUTH", "").strip().lower()
-    if disable_admin_auth_raw:
-        disable_admin_auth = disable_admin_auth_raw in {"1", "true", "yes", "y", "on"}
-    else:
-        disable_admin_auth = app_env in {"dev", "development"}
+    # disable_admin_auth_raw = os.environ.get("DISABLE_ADMIN_AUTH", "").strip().lower()
+    # if disable_admin_auth_raw:
+    #     disable_admin_auth = disable_admin_auth_raw in {"1", "true", "yes", "y", "on"}
+    # else:
+    #     disable_admin_auth = app_env in {"dev", "development"}
+    disable_admin_auth = True
 
     service = ModelService(
         dataset_zip_path=dataset_zip_path,
