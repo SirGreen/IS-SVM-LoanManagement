@@ -45,6 +45,40 @@ python -m unittest discover -s tests -p "test_*.py" -v
 
 The test suite uses temporary model/log artifacts so it does not overwrite your normal runtime files.
 
+## 2.2) Generate Evaluation Graphs
+
+You can generate model and dataset evaluation charts from the current saved model state:
+
+```bash
+cd backend
+python generate_evaluation_graphs.py
+```
+
+This writes PNG files to `backend/artifacts/plots/`.
+
+Preprocessing and pre-evaluation charts:
+
+- `pre_missing_values.png`
+- `pre_numeric_distributions.png`
+- `pre_numeric_correlation_heatmap.png`
+- `pre_standardization_effect.png`
+- `pre_categorical_risk_separation.png`
+- `pre_attribute_impact.png`
+
+Model evaluation charts:
+
+- `class_distribution.png`
+- `metrics_bar_chart.png`
+- `confusion_matrix.png`
+- `decision_score_distribution.png`
+- `roc_curve.png`
+
+Optional arguments:
+
+- `--state-file <path>` to use a different `model_state.json`
+- `--dataset-path <path>` to force a specific dataset file (zip or `german.data`)
+- `--output-dir <path>` to change where charts are saved
+
 ## 3) Endpoints
 
 ### Health
